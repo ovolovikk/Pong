@@ -1,11 +1,14 @@
-#include <SDL.h>
+#include "core/Game.hpp"
 
 #include <iostream>
 
 int main()
 {
-    SDL_Init(SDL_INIT_VIDEO);
-    std::cout << "Pong!" << std::endl;
+    constexpr std::string_view TITLE = "Pong";
+    constexpr auto WIDTH = 320 * 4, HEIGHT = 320 * 3;
 
+    std::cout << TITLE << std::endl;
+
+    Game game(TITLE, 1280, 960);
     return 0;
 }

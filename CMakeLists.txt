@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.10)
 project(Pong)
 
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(APPLE)
@@ -19,8 +19,13 @@ endif()
 add_definitions(-DSDL_MAIN_HANDLED)
 
 add_executable(Pong 
-    src/main.cpp 
-    )
+              src/main.cpp
+              src/core/Game.cpp
+              src/core/Renderer.cpp
+              src/core/Window.cpp 
+              )
+
+target_include_directories(Pong PRIVATE src)
 
 if(APPLE)
     target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2_image::SDL2_image)
