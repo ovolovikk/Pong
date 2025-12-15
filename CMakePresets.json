@@ -1,0 +1,32 @@
+{
+    "version": 3,
+    "configurePresets": [
+        {
+        "name": "MacOS",
+        "displayName": "macOS Release",
+        "description": "Build on macOS using AppleClang and Ninja",
+        "generator": "Ninja",
+        "binaryDir": "${sourceDir}/out/build/MacOS",
+        "installDir": "${sourceDir}/out/install/MacOS",
+
+        "cacheVariables": {
+        "CMAKE_C_COMPILER": "clang",
+        "CMAKE_CXX_COMPILER": "clang++",
+        "CMAKE_BUILD_TYPE": "Release",
+
+        "CMAKE_PREFIX_PATH": "/opt/homebrew;/usr/local"
+        },
+
+        "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Darwin"
+        },
+
+        "architecture": {
+        "value": "arm64",
+        "strategy": "external"
+        }
+        }
+    ]
+}
