@@ -24,12 +24,19 @@ Renderer::~Renderer()
 
 void Renderer::beginFrame()
 {
+    SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
     SDL_RenderClear(renderer);
 }
 
 void Renderer::draw()
 {
     SDL_SetRenderDrawColor(renderer, 0, 0, 100, 255);
+}
+
+void Renderer::drawRect(const SDL_Rect& rect)
+{
+    SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+    SDL_RenderFillRect(renderer, &rect);
 }
 
 void Renderer::endFrame()

@@ -6,7 +6,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(APPLE)
     find_package(SDL2 REQUIRED)
-    find_package(SDL2_image REQUIRED)
 endif()
 
 if(WIN32)
@@ -14,6 +13,8 @@ if(WIN32)
     include_directories(${SDL2_PATH}/include)
     include_directories(src)
     link_directories(${SDL2_PATH}/lib/x64)
+
+    file(GLOB SDL2_DLLS "${SDL2_PATH}/lib/x64/*.dll")
 endif()
 
 add_definitions(-DSDL_MAIN_HANDLED)
@@ -23,16 +24,24 @@ add_executable(Pong
               src/core/Game.cpp
               src/core/Renderer.cpp
               src/core/Window.cpp 
+              src/entity/Blocker.cpp
+              src/entity/Ball.cpp
               )
 
 target_include_directories(Pong PRIVATE src)
 
 if(APPLE)
-    target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2_image::SDL2_image)
+    target_link_libraries(Pong PRIVATE SDL2::SDL2)
 endif()
 
 if(WIN32)
     target_link_libraries(Pong PRIVATE SDL2)
+
+    add_custom_command(TARGET Pong POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+        ${SDL2_DLLS}
+        $<TARGET_FILE_DIR:Pong>
+        COMMENT "Copying SDL2 DLLs to output directory")
 endif()
 
 set_property(TARGET Pong PROPERTY CXX_STANDARD 20)

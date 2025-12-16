@@ -1,8 +1,9 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
-class SDL_Renderer;
-class SDL_Window;
+struct SDL_Renderer;
+struct SDL_Window;
+struct SDL_Rect;
 
 class Renderer
 {
@@ -17,6 +18,7 @@ public:
 
     void beginFrame();
     void draw();
+    void drawRect(const SDL_Rect& rect);
     void endFrame();
 
     auto getSDLRenderer() const { return renderer; }

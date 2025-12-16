@@ -1,13 +1,14 @@
 #ifndef GAME_HPP
 #define GAME_HPP
 
-#include "core/Window.hpp"
-#include "core/Renderer.hpp"
-
 #include <string>
 #include <memory>
 
 #include <SDL.h>
+
+class Window;
+class Renderer;
+class Blocker;
 
 class Game
 {
@@ -27,6 +28,8 @@ private:
 
     std::unique_ptr<Window> window;
     std::unique_ptr<Renderer> renderer;
+    std::unique_ptr<Blocker> player;
+    std::unique_ptr<Blocker> bot;
 
     bool is_running = true;
 };

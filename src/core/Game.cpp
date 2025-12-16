@@ -1,9 +1,12 @@
 #include "core/Game.hpp"
 
+#include "core/Renderer.hpp"
+#include "core/Window.hpp"
+#include "entity/Blocker.hpp"
+
 #include <iostream>
 
 #include <SDL.h>
-#include <SDL2_image/SDL_image.h>
 
 Game::Game(const std::string_view& title_, int width_, int height_)
 {
@@ -33,8 +36,10 @@ void Game::update()
         }
 
         renderer->beginFrame();
-        
-        renderer->draw();
+
+        if (player) player->render(*renderer);
+        if (bot) bot->render(*renderer);
+
         renderer->endFrame();
         
         SDL_Delay(16);
@@ -44,4 +49,10 @@ void Game::update()
 void Game::init()
 {
     renderer = std::make_unique<Renderer>(window->getSDLWindow());
+    
+    int w = window->getWidth();
+    int h = window->getHeight();
+
+    player = std::make_unique<Blocker>(50, (h / 2) - 50);
+    bot = std::make_unique<Blocker>(w - 70, (h / 2) - 50);
 }
