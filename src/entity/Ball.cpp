@@ -8,7 +8,7 @@
 Ball::Ball(const Circle& p, SDL_Color color, int windowWidth, int windowHeight)
     : circle(p), color(color), 
     windowWidth(windowWidth), windowHeight(windowHeight),
-    dx(4), dy(4)
+    dx(4.0f), dy(4.0f), speed(4.0f)
 {
 
 }
@@ -34,7 +34,9 @@ void Ball::reset()
 {
     circle.x = windowWidth / 2;
     circle.y = windowHeight / 2;
-    dx = -dx;
+    speed = 4.0f;
+    dx = (dx > 0 ? -1 : 1) * speed;
+    dy = (dy > 0 ? 1 : -1) * speed;
 }
 
 void Ball::checkCollision(const SDL_Rect& rect)
@@ -49,6 +51,14 @@ void Ball::checkCollision(const SDL_Rect& rect)
 
     if (distanceSquared < (circle.radius * circle.radius))
     {
+        speed += 1.0f;
+        
+        float length = std::sqrt(dx*dx + dy*dy);
+        if (length != 0) {
+            dx = (dx / length) * speed;
+            dy = (dy / length) * speed;
+        }
+
         dx = -dx;
         
         if (circle.x < rect.x) {

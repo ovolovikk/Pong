@@ -103,7 +103,7 @@ void Game::render()
                             48, {255, 0, 0, 255}
                             );
         renderer->drawText("Press ENTER to Restart", 
-                            window->getWidth()/2 - 150, window->getHeight()/2 + 20,
+                            window->getWidth()/2 - 190, window->getHeight()/2 + 20,
                             24, {255,255,255,255}
                             );
     }

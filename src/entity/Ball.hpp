@@ -26,8 +26,13 @@ private:
     SDL_Color color;
     int windowWidth;
     int windowHeight;
-    int dx;
-    int dy;
+    float dx;
+    float dy;
+    float speed;
+    
+    // Helper to keep track of precise position
+    float x_pos;
+    float y_pos;
 };
 
 #endif //BALL_HPP

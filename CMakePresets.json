@@ -31,10 +31,13 @@
         {
         "name": "Windows",
         "displayName": "Windows Release",
-        "description": "Build on Windows using MSVC",
+        "description": "Build on Windows using MSVC and vcpkg",
         "generator": "Visual Studio 17 2022",
         "binaryDir": "${sourceDir}/out/build/Windows",
         "installDir": "${sourceDir}/out/install/Windows",
+        "cacheVariables": {
+            "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+        },
         "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
