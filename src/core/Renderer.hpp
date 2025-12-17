@@ -4,6 +4,8 @@
 struct SDL_Renderer;
 struct SDL_Window;
 struct SDL_Rect;
+struct SDL_Color;
+struct Circle;
 
 class Renderer
 {
@@ -19,6 +21,7 @@ public:
     void beginFrame();
     void draw();
     void drawRect(const SDL_Rect& rect);
+    void drawCircle(const Circle& circle, const SDL_Color& color);
     void endFrame();
 
     auto getSDLRenderer() const { return renderer; }

@@ -6,9 +6,13 @@
 
 #include <SDL.h>
 
+#include "core/InputHandler.hpp"
+#include "ai/Bot.hpp"
+
 class Window;
 class Renderer;
 class Blocker;
+class Ball;
 
 class Game
 {
@@ -30,6 +34,10 @@ private:
     std::unique_ptr<Renderer> renderer;
     std::unique_ptr<Blocker> player;
     std::unique_ptr<Blocker> bot;
+    std::unique_ptr<Ball> ball;
+
+    Bot botController;
+    InputHandler inputHandler;
 
     bool is_running = true;
 };

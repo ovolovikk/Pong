@@ -3,19 +3,29 @@
 
 #include "helpers/Circle.hpp"
 
-struct SDL_Color;
+#include <SDL.h>
+
+class Renderer;
 
 class Ball
 {
 public:
-    Ball(const Circle& p, SDL_Color color);
+    Ball(const Circle& p, SDL_Color color, int windowWidth, int windowHeight);
     ~Ball();
 
     void update();
     void render(Renderer& renderer);
+    void checkCollision(const SDL_Rect& rect);
+
+    const Circle& getCircle() const { return circle; }
 
 private:
     Circle circle;
+    SDL_Color color;
+    int windowWidth;
+    int windowHeight;
+    int dx = 4;
+    int dy = 4;
 };
 
 #endif //BALL_HPP

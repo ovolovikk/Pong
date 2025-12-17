@@ -1,6 +1,9 @@
 #include "core/Renderer.hpp"
 
+#include "helpers/Circle.hpp"
+
 #include <iostream>
+#include <cmath>
 
 #include <SDL.h>
 
@@ -37,6 +40,22 @@ void Renderer::drawRect(const SDL_Rect& rect)
 {
     SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
     SDL_RenderFillRect(renderer, &rect);
+}
+
+void Renderer::drawCircle(const Circle& circle, const SDL_Color& color)
+{
+    SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+
+    for (int x = -circle.radius; x <= circle.radius; x++)
+    {
+        for (int y = -circle.radius; y <= circle.radius; y++)
+        {
+            if (x * x + y * y <= circle.radius * circle.radius)
+            {
+                SDL_RenderDrawPoint(renderer, circle.x + x, circle.y + y);
+            }
+        }
+    }
 }
 
 void Renderer::endFrame()
