@@ -6,7 +6,7 @@ class Blocker;
 class InputHandler
 {
 public:
-    void handleInput(Blocker& player);
+    void handleInput(Blocker &player);
 };
 
 #endif // INPUTHANDLER_HPP

@@ -12,13 +12,13 @@ public:
     ~Blocker();
 
     void update();
-    void render(Renderer& renderer);
+    void render(Renderer &renderer);
     void setDirection(int direction_) { direction = direction_; }
 
     int getWidth() const { return width; }
     int getHeight() const { return height; }
     int getY() const { return rect.y; }
-    const SDL_Rect& getRect() const { return rect; }
+    const SDL_Rect &getRect() const { return rect; }
 
 private:
     constexpr static int SPEED = 5;
@@ -28,7 +28,6 @@ private:
     int height;
     int windowHeight;
     int direction;
-
 };
 
 #endif // BLOCKER_HPP

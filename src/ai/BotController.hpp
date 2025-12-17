@@ -7,7 +7,7 @@ class Ball;
 class BotController
 {
 public:
-    void update(Blocker& blocker, const Ball& ball);
+    void update(Blocker &blocker, const Ball &ball);
 };
 
 #endif // BOT_CONTROLLER_HPP

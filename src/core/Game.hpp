@@ -23,11 +23,11 @@ enum class GameState
 class Game
 {
 public:
-    Game(const std::string_view& title_, int width_, int height_);
+    Game(const std::string_view &title_, int width_, int height_);
     ~Game();
-    
-    Game(const Game&) = delete;
-    Game& operator=(const Game&) = delete;
+
+    Game(const Game &) = delete;
+    Game &operator=(const Game &) = delete;
 
     void run();
 
