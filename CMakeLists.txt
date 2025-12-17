@@ -5,7 +5,9 @@ set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if(APPLE)
+    set(CMAKE_FIND_FRAMEWORK LAST)
     find_package(SDL2 REQUIRED)
+    find_package(SDL2_ttf REQUIRED)
 endif()
 
 if(WIN32)
@@ -33,7 +35,7 @@ add_executable(Pong
 target_include_directories(Pong PRIVATE src)
 
 if(APPLE)
-    target_link_libraries(Pong PRIVATE SDL2::SDL2)
+    target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2_ttf::SDL2_ttf)
 endif()
 
 if(WIN32)
@@ -45,5 +47,11 @@ if(WIN32)
         $<TARGET_FILE_DIR:Pong>
         COMMENT "Copying SDL2 DLLs to output directory")
 endif()
+
+add_custom_command(TARGET Pong POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+    ${CMAKE_SOURCE_DIR}/assets
+    $<TARGET_FILE_DIR:Pong>/assets
+)
 
 set_property(TARGET Pong PROPERTY CXX_STANDARD 20)

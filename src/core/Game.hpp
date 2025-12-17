@@ -14,6 +14,12 @@ class Renderer;
 class Blocker;
 class Ball;
 
+enum class GameState
+{
+    Playing,
+    GameOver
+};
+
 class Game
 {
 public:
@@ -23,10 +29,14 @@ public:
     Game(const Game&) = delete;
     Game& operator=(const Game&) = delete;
 
-    void update();
+    void run();
 
 private:
     void init();
+    void handleEvents();
+    void update();
+    void render();
+    void resetGame();
 
     SDL_Event event;
 
@@ -38,6 +48,11 @@ private:
 
     BotController botController;
     InputHandler inputHandler;
+
+    GameState state = GameState::Playing;
+    uint8_t leftScore = 0;
+    uint8_t rightScore = 0;
+    static constexpr auto MAX_SCORE = 5;
 
     bool is_running = true;
 };

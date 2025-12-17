@@ -1,11 +1,14 @@
 #ifndef RENDERER_HPP
 #define RENDERER_HPP
 
+#include <string>
+
 struct SDL_Renderer;
 struct SDL_Window;
 struct SDL_Rect;
 struct SDL_Color;
 struct Circle;
+struct TTF_Font;
 
 class Renderer
 {
@@ -16,7 +19,7 @@ public:
     Renderer(const Renderer&) = delete;
     Renderer& operator=(const Renderer&) = delete;
 
-    void init();
+    void drawText(const std::string& text, int x, int y, int size, SDL_Color color);
 
     void beginFrame();
     void draw();
@@ -28,6 +31,7 @@ public:
 
 private:
     SDL_Renderer* renderer;
+    TTF_Font* font = nullptr;
     
 };
 

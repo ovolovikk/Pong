@@ -20,15 +20,6 @@ void Ball::update()
     circle.x += dx;
     circle.y += dy;
 
-    if (circle.x - circle.radius < 0) {
-        circle.x = circle.radius;
-        dx = -dx;
-    }
-    if (circle.x + circle.radius > windowWidth) {
-        circle.x = windowWidth - circle.radius;
-        dx = -dx;
-    }
-
     if (circle.y - circle.radius < 0) {
         circle.y = circle.radius;
         dy = -dy;
@@ -37,6 +28,13 @@ void Ball::update()
         circle.y = windowHeight - circle.radius;
         dy = -dy;
     }
+}
+
+void Ball::reset()
+{
+    circle.x = windowWidth / 2;
+    circle.y = windowHeight / 2;
+    dx = -dx;
 }
 
 void Ball::checkCollision(const SDL_Rect& rect)
