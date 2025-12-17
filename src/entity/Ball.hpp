@@ -24,8 +24,8 @@ private:
     SDL_Color color;
     int windowWidth;
     int windowHeight;
-    int dx = 4;
-    int dy = 4;
+    int dx;
+    int dy;
 };
 
 #endif //BALL_HPP

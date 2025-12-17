@@ -25,7 +25,7 @@ add_executable(Pong
               src/core/Renderer.cpp
               src/core/Window.cpp 
               src/core/InputHandler.cpp
-              src/ai/Bot.cpp
+              src/ai/BotController.cpp
               src/entity/Blocker.cpp
               src/entity/Ball.cpp
               )

@@ -7,8 +7,6 @@
 
 #include <iostream>
 
-#include <SDL.h>
-
 Game::Game(const std::string_view& title_, int width_, int height_)
 {
     window = std::make_unique<Window>(title_, width_, height_);

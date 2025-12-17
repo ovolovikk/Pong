@@ -1,9 +1,9 @@
-#include "ai/Bot.hpp"
+#include "ai/BotController.hpp"
 #include "entity/Blocker.hpp"
 #include "entity/Ball.hpp"
 #include "helpers/Circle.hpp"
 
-void Bot::update(Blocker& blocker, const Ball& ball)
+void BotController::update(Blocker& blocker, const Ball& ball)
 {
     const Circle& ballCircle = ball.getCircle();
     int ballY = ballCircle.y;

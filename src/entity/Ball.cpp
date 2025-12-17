@@ -6,7 +6,9 @@
 #include <algorithm>
 
 Ball::Ball(const Circle& p, SDL_Color color, int windowWidth, int windowHeight)
-    : circle(p), color(color), windowWidth(windowWidth), windowHeight(windowHeight)
+    : circle(p), color(color), 
+    windowWidth(windowWidth), windowHeight(windowHeight),
+    dx(4), dy(4)
 {
 
 }

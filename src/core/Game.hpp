@@ -7,7 +7,7 @@
 #include <SDL.h>
 
 #include "core/InputHandler.hpp"
-#include "ai/Bot.hpp"
+#include "ai/BotController.hpp"
 
 class Window;
 class Renderer;
@@ -36,7 +36,7 @@ private:
     std::unique_ptr<Blocker> bot;
     std::unique_ptr<Ball> ball;
 
-    Bot botController;
+    BotController botController;
     InputHandler inputHandler;
 
     bool is_running = true;
