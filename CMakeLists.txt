@@ -24,7 +24,11 @@ add_executable(Pong
 
 target_include_directories(Pong PRIVATE src)
 
-target_link_libraries(Pong PRIVATE SDL2::SDL2 SDL2_ttf::SDL2_ttf)
+target_link_libraries(Pong PRIVATE 
+    $<TARGET_NAME_IF_EXISTS:SDL2::SDL2main>
+    $<IF:$<TARGET_EXISTS:SDL2::SDL2>,SDL2::SDL2,SDL2::SDL2-static>
+    $<IF:$<TARGET_EXISTS:SDL2_ttf::SDL2_ttf>,SDL2_ttf::SDL2_ttf,SDL2_ttf::SDL2_ttf-static>
+)
 
 add_custom_command(TARGET Pong POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy_directory

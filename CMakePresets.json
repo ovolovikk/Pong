@@ -36,13 +36,24 @@
         "binaryDir": "${sourceDir}/out/build/Windows",
         "installDir": "${sourceDir}/out/install/Windows",
         "cacheVariables": {
-            "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake"
+            "CMAKE_TOOLCHAIN_FILE": "$env{VCPKG_ROOT}/scripts/buildsystems/vcpkg.cmake",
+            "VCPKG_TARGET_TRIPLET": "x64-windows-static"
         },
         "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
         }
+        }
+    ],
+    "buildPresets": [
+        {
+            "name": "Windows",
+            "configurePreset": "Windows"
+        },
+        {
+            "name": "MacOS",
+            "configurePreset": "MacOS"
         }
     ]
 }
