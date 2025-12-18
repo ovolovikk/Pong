@@ -9,6 +9,6 @@ My implementation of the classic Pong game using C++ and SDL2.
 
 ## How to Build
 ```bash
-cmake --preset Windows
-cmake --build --preset Windows
+cmake -S . -B build
+cmake --build build
 ```
