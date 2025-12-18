@@ -1,8 +1,0 @@
-{
-  "name": "pong",
-  "version-string": "0.1.0",
-  "dependencies": [
-    "sdl2",
-    "sdl2-ttf"
-  ]
-}
