@@ -6,9 +6,9 @@
 #include <algorithm>
 
 Ball::Ball(const Circle &p, SDL_Color color, int windowWidth, int windowHeight)
-    : circle(p), color(color),
-      windowWidth(windowWidth), windowHeight(windowHeight),
-      dx(4.0f), dy(4.0f), speed(4.0f)
+        : m_circle(p), m_color(color),
+            m_windowWidth(windowWidth), m_windowHeight(windowHeight),
+            m_dx(4.0f), m_dy(4.0f), m_speed(4.0f)
 {
 }
 
@@ -16,65 +16,65 @@ Ball::~Ball() = default;
 
 void Ball::update()
 {
-    circle.x += dx;
-    circle.y += dy;
+    m_circle.x += m_dx;
+    m_circle.y += m_dy;
 
-    if (circle.y - circle.radius < 0)
+    if (m_circle.y - m_circle.radius < 0)
     {
-        circle.y = circle.radius;
-        dy = -dy;
+        m_circle.y = m_circle.radius;
+        m_dy = -m_dy;
     }
-    if (circle.y + circle.radius > windowHeight)
+    if (m_circle.y + m_circle.radius > m_windowHeight)
     {
-        circle.y = windowHeight - circle.radius;
-        dy = -dy;
+        m_circle.y = m_windowHeight - m_circle.radius;
+        m_dy = -m_dy;
     }
 }
 
 void Ball::reset()
 {
-    circle.x = windowWidth / 2;
-    circle.y = windowHeight / 2;
-    speed = 4.0f;
-    dx = (dx > 0 ? -1 : 1) * speed;
-    dy = (dy > 0 ? 1 : -1) * speed;
+    m_circle.x = m_windowWidth / 2;
+    m_circle.y = m_windowHeight / 2;
+    m_speed = 4.0f;
+    m_dx = (m_dx > 0 ? -1 : 1) * m_speed;
+    m_dy = (m_dy > 0 ? 1 : -1) * m_speed;
 }
 
 void Ball::checkCollision(const SDL_Rect &rect)
 {
-    int closestX = std::clamp(circle.x, rect.x, rect.x + rect.w);
-    int closestY = std::clamp(circle.y, rect.y, rect.y + rect.h);
+    int closestX = std::clamp(m_circle.x, rect.x, rect.x + rect.w);
+    int closestY = std::clamp(m_circle.y, rect.y, rect.y + rect.h);
 
-    int distanceX = circle.x - closestX;
-    int distanceY = circle.y - closestY;
+    int distanceX = m_circle.x - closestX;
+    int distanceY = m_circle.y - closestY;
 
     int distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
 
-    if (distanceSquared < (circle.radius * circle.radius))
+    if (distanceSquared < (m_circle.radius * m_circle.radius))
     {
-        speed += 1.0f;
+        m_speed += 1.0f;
 
-        float length = std::sqrt(dx * dx + dy * dy);
+        float length = std::sqrt(m_dx * m_dx + m_dy * m_dy);
         if (length != 0)
         {
-            dx = (dx / length) * speed;
-            dy = (dy / length) * speed;
+            m_dx = (m_dx / length) * m_speed;
+            m_dy = (m_dy / length) * m_speed;
         }
 
-        dx = -dx;
+        m_dx = -m_dx;
 
-        if (circle.x < rect.x)
+        if (m_circle.x < rect.x)
         {
-            circle.x = rect.x - circle.radius;
+            m_circle.x = rect.x - m_circle.radius;
         }
         else
         {
-            circle.x = rect.x + rect.w + circle.radius;
+            m_circle.x = rect.x + rect.w + m_circle.radius;
         }
     }
 }
 
 void Ball::render(Renderer &renderer)
 {
-    renderer.drawCircle(circle, color);
+    renderer.drawCircle(m_circle, m_color);
 }

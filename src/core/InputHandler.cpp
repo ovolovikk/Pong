@@ -2,7 +2,7 @@
 #include "entity/Blocker.hpp"
 #include <SDL.h>
 
-void InputHandler::handleInput(Blocker &player)
+void InputHandler::handleInput(const std::shared_ptr<Blocker> &player)
 {
     const Uint8 *state = SDL_GetKeyboardState(NULL);
 
@@ -15,5 +15,5 @@ void InputHandler::handleInput(Blocker &player)
     {
         direction = 1;
     }
-    player.setDirection(direction);
+    player->setDirection(direction);
 }

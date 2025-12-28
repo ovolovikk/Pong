@@ -3,32 +3,32 @@
 #include "core/Renderer.hpp"
 
 Blocker::Blocker(int x, int y, int windowHeight_)
-    : width(20), height(100),
-      windowHeight(windowHeight_), direction(0)
+    : m_width(20), m_height(100),
+      m_windowHeight(windowHeight_), m_direction(0)
 {
-    rect.x = x;
-    rect.y = y;
-    rect.w = width;
-    rect.h = height;
+    m_rect.x = x;
+    m_rect.y = y;
+    m_rect.w = m_width;
+    m_rect.h = m_height;
 }
 
 Blocker::~Blocker() = default;
 
 void Blocker::update()
 {
-    rect.y += direction * SPEED;
+    m_rect.y += m_direction * SPEED;
 
-    if (rect.y < 0)
+    if (m_rect.y < 0)
     {
-        rect.y = 0;
+        m_rect.y = 0;
     }
-    if (rect.y + height > windowHeight)
+    if (m_rect.y + m_height > m_windowHeight)
     {
-        rect.y = windowHeight - height;
+        m_rect.y = m_windowHeight - m_height;
     }
 }
 
 void Blocker::render(Renderer &renderer)
 {
-    renderer.drawRect(rect);
+    renderer.drawRect(m_rect);
 }

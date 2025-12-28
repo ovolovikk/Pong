@@ -1,5 +1,4 @@
-#ifndef BALL_HPP
-#define BALL_HPP
+#pragma once
 
 #include "helpers/Circle.hpp"
 
@@ -18,21 +17,19 @@ public:
     void render(Renderer &renderer);
     void checkCollision(const SDL_Rect &rect);
 
-    const Circle &getCircle() const { return circle; }
-    auto getX() const { return circle.x; }
+    const Circle &getCircle() const { return m_circle; }
+    auto getX() const { return m_circle.x; }
 
 private:
-    Circle circle;
-    SDL_Color color;
-    int windowWidth;
-    int windowHeight;
-    float dx;
-    float dy;
-    float speed;
+    Circle m_circle;
+    SDL_Color m_color;
+    int m_windowWidth;
+    int m_windowHeight;
+    float m_dx;
+    float m_dy;
+    float m_speed;
 
     // Helper to keep track of precise position
-    float x_pos;
-    float y_pos;
+    float m_x_pos;
+    float m_y_pos;
 };
-
-#endif // BALL_HPP

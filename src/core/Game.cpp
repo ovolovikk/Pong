@@ -4,31 +4,60 @@
 #include "core/Window.hpp"
 #include "entity/Blocker.hpp"
 #include "entity/Ball.hpp"
+#include "ui/Font.hpp"
 
 #include <iostream>
 
-Game::Game(const std::string_view &title_, int width_, int height_)
-{
-    window = std::make_unique<Window>(title_, width_, height_);
+#include <SDL.h>
+#include <SDL_ttf.h>
 
-    init();
-    if (window)
+Game::Game(const std::string_view &title, int width, int height)
+{
+    if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
-        run();
+        std::cerr << "SDL_Init failed: " << SDL_GetError() << std::endl;
+        return;
+    }
+
+    if (TTF_Init() != 0)
+    {
+        std::cerr << "TTF_Init failed: " << TTF_GetError() << std::endl;
+        return;
+    }
+
+    m_scoreFont = std::make_unique<Font>("assets/font.ttf", 32);
+    m_gameOverFont = std::make_unique<Font>("assets/font.ttf", 48);
+
+    m_is_valid = true;
+
+    m_window = std::make_unique<Window>(title, width, height);
+    init();
+}
+
+Game::~Game()
+{
+    if (m_is_valid)
+    {
+        m_renderer.reset();
+        m_window.reset();
+
+        m_gameOverFont.reset();
+        m_scoreFont.reset();
+
+        TTF_Quit();
+        SDL_Quit();
     }
 }
 
-Game::~Game() = default;
-
 void Game::run()
 {
-    if (!player || !bot || !ball || !renderer)
+    if (!m_player || !m_bot || !m_ball || !m_renderer)
     {
         std::cerr << "Game entities not initialized!" << std::endl;
         return;
     }
 
-    while (is_running)
+    while (m_is_running)
     {
         handleEvents();
         update();
@@ -39,22 +68,22 @@ void Game::run()
 
 void Game::handleEvents()
 {
-    while (SDL_PollEvent(&event))
+    while (SDL_PollEvent(&m_event))
     {
-        if (event.type == SDL_QUIT)
+        if (m_event.type == SDL_QUIT)
         {
-            is_running = false;
+            m_is_running = false;
         }
 
-        if (state == GameState::GameOver && event.type == SDL_KEYDOWN)
+        if (m_state == GameState::GameOver && m_event.type == SDL_KEYDOWN)
         {
-            if (event.key.keysym.sym == SDLK_RETURN)
+            if (m_event.key.keysym.sym == SDLK_RETURN)
             {
                 resetGame();
             }
-            if (event.key.keysym.sym == SDLK_ESCAPE)
+            if (m_event.key.keysym.sym == SDLK_ESCAPE)
             {
-                is_running = false;
+                m_is_running = false;
             }
         }
     }
@@ -62,81 +91,105 @@ void Game::handleEvents()
 
 void Game::update()
 {
-    if (state != GameState::Playing)
+    if (m_state != GameState::Playing)
         return;
 
-    inputHandler.handleInput(*player);
-    botController.update(*bot, *ball);
+    m_inputHandler.handleInput(m_player);
+    m_botController.update(m_bot, m_ball);
 
-    player->update();
-    bot->update();
-    ball->update();
+    m_player->update();
+    m_bot->update();
+    m_ball->update();
 
-    ball->checkCollision(player->getRect());
-    ball->checkCollision(bot->getRect());
+    m_ball->checkCollision(m_player->getRect());
+    m_ball->checkCollision(m_bot->getRect());
 
-    if (ball->getX() < 0)
+    if (m_ball->getX() < 0)
     {
-        rightScore++;
-        ball->reset();
+        m_rightScore++;
+        m_ball->reset();
     }
-    else if (ball->getX() > window->getWidth())
+    else if (m_ball->getX() > m_window->getWidth())
     {
-        leftScore++;
-        ball->reset();
+        m_leftScore++;
+        m_ball->reset();
     }
 
-    if (leftScore >= MAX_SCORE || rightScore >= MAX_SCORE)
+    if (m_leftScore >= MAX_SCORE || m_rightScore >= MAX_SCORE)
     {
-        state = GameState::GameOver;
+        m_state = GameState::GameOver;
     }
 }
 
 void Game::render()
 {
-    renderer->beginFrame();
+    if (!m_renderer)
+        return;
 
-    if (state == GameState::Playing)
+    m_renderer->beginFrame();
+
+    if (m_state == GameState::Playing)
     {
-        player->render(*renderer);
-        bot->render(*renderer);
-        ball->render(*renderer);
-        renderer->drawText(std::to_string(leftScore),
-                           200, 50,
-                           32, {255, 255, 255, 255});
-        renderer->drawText(std::to_string(rightScore),
-                           window->getWidth() - 200, 50,
-                           32, {255, 255, 255, 255});
+        m_player->render(*m_renderer);
+        m_bot->render(*m_renderer);
+        m_ball->render(*m_renderer);
+
+        m_renderer->drawText(
+            std::to_string(m_leftScore),
+            m_window->getWidth() / 4,
+            30,
+            32,
+            SDL_Color{255, 255, 255, 255}
+        );
+
+        m_renderer->drawText(
+            std::to_string(m_rightScore),
+            m_window->getWidth() * 3 / 4,
+            30,
+            32,
+            SDL_Color{255, 255, 255, 255}
+        );
     }
-    else if (state == GameState::GameOver)
+    else if (m_state == GameState::GameOver)
     {
-        renderer->drawText("GAME OVER",
-                           window->getWidth() / 2 - 100, window->getHeight() / 2 - 50,
-                           48, {255, 0, 0, 255});
-        renderer->drawText("Press ENTER to Restart",
-                           window->getWidth() / 2 - 190, window->getHeight() / 2 + 20,
-                           24, {255, 255, 255, 255});
+        m_renderer->drawText(
+            "GAME OVER",
+            m_window->getWidth() / 2 - 140,
+            m_window->getHeight() / 2 - 80,
+            48,
+            SDL_Color{255, 0, 0, 255}
+        );
+
+        m_renderer->drawText(
+            "Press ENTER to restart",
+            m_window->getWidth() / 2 - 200,
+            m_window->getHeight() / 2,
+            24,
+            SDL_Color{255, 255, 255, 255}
+        );
     }
 
-    renderer->endFrame();
+    m_renderer->endFrame();
 }
+
+
 
 void Game::resetGame()
 {
-    leftScore = 0;
-    rightScore = 0;
-    ball->reset();
-    state = GameState::Playing;
+    m_leftScore = 0;
+    m_rightScore = 0;
+    m_ball->reset();
+    m_state = GameState::Playing;
 }
 
 void Game::init()
 {
-    renderer = std::make_unique<Renderer>(window->getSDLWindow());
+    m_renderer = std::make_unique<Renderer>(m_window->getSDLWindow());
 
-    int w = window->getWidth();
-    int h = window->getHeight();
+    int w = m_window->getWidth();
+    int h = m_window->getHeight();
 
-    player = std::make_unique<Blocker>(50, (h / 2) - 50, h);
-    ball = std::make_unique<Ball>(Circle{w / 2, h / 2, 10}, SDL_Color{255, 255, 255, 255}, w, h);
-    bot = std::make_unique<Blocker>(w - 70, (h / 2) - 50, h);
+    m_player = std::make_shared<Blocker>(50, (h / 2) - 50, h);
+    m_ball = std::make_shared<Ball>(Circle{w / 2, h / 2, 10}, SDL_Color{255, 255, 255, 255}, w, h);
+    m_bot = std::make_shared<Blocker>(w - 70, (h / 2) - 50, h);
 }

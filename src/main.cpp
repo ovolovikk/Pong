@@ -4,11 +4,13 @@
 
 int main()
 {
-    static constexpr std::string_view TITLE = "Pong";
-    static constexpr auto WIDTH = 320 * 4, HEIGHT = 320 * 3;
 
-    std::cout << TITLE << std::endl;
+    Game game("Pong", 1280, 960);
+    if(!game.isValid())
+    {
+        return -1;
+    }
 
-    Game game(TITLE, WIDTH, HEIGHT);
+    game.run();
     return 0;
 }

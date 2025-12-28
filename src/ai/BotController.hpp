@@ -1,5 +1,6 @@
-#ifndef BOT_CONTROLLER_HPP
-#define BOT_CONTROLLER_HPP
+#pragma once
+
+#include <memory>
 
 class Blocker;
 class Ball;
@@ -7,7 +8,5 @@ class Ball;
 class BotController
 {
 public:
-    void update(Blocker &blocker, const Ball &ball);
+    void update(const std::shared_ptr<Blocker> &blocker, const std::shared_ptr<Ball> &ball);
 };
-
-#endif // BOT_CONTROLLER_HPP

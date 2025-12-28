@@ -33,6 +33,7 @@ set(SOURCES
     src/ai/BotController.cpp
     src/entity/Blocker.cpp
     src/entity/Ball.cpp
+    src/ui/Font.cpp
 )
 
 add_executable(Pong ${SOURCES})

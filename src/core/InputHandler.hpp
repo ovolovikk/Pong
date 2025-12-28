@@ -1,12 +1,11 @@
-#ifndef INPUTHANDLER_HPP
-#define INPUTHANDLER_HPP
+#pragma once
+
+#include <memory>
 
 class Blocker;
 
 class InputHandler
 {
 public:
-    void handleInput(Blocker &player);
+    void handleInput(const std::shared_ptr<Blocker> &player);
 };
-
-#endif // INPUTHANDLER_HPP

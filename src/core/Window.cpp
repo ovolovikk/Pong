@@ -4,8 +4,8 @@
 
 #include <SDL.h>
 
-Window::Window(const std::string_view &title_, int width_, int height_)
-    : width(width_), height(height_), window(nullptr)
+Window::Window(const std::string_view &title, int width, int height)
+    : m_width(width), m_height(height), m_window(nullptr)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {
@@ -14,10 +14,10 @@ Window::Window(const std::string_view &title_, int width_, int height_)
         return;
     }
 
-    window = SDL_CreateWindow(title_.data(),
+    m_window = SDL_CreateWindow(title.data(),
                               SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED,
-                              width, height, 0);
-    if (!window)
+                              m_width, m_height, 0);
+    if (!m_window)
     {
         std::cerr << "Error during window initialization, SDL_GerError: "
                   << SDL_GetError() << std::endl;
@@ -27,9 +27,9 @@ Window::Window(const std::string_view &title_, int width_, int height_)
 
 Window::~Window()
 {
-    if (window)
+    if (m_window)
     {
-        SDL_DestroyWindow(window);
+        SDL_DestroyWindow(m_window);
     }
     SDL_Quit();
 }

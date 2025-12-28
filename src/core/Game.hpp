@@ -1,18 +1,18 @@
-#ifndef GAME_HPP
-#define GAME_HPP
+#pragma once
 
 #include <string>
 #include <memory>
 
-#include <SDL.h>
-
 #include "core/InputHandler.hpp"
 #include "ai/BotController.hpp"
+
+#include <SDL.h>
 
 class Window;
 class Renderer;
 class Blocker;
 class Ball;
+class Font;
 
 enum class GameState
 {
@@ -23,12 +23,13 @@ enum class GameState
 class Game
 {
 public:
-    Game(const std::string_view &title_, int width_, int height_);
+    Game(const std::string_view &title, int width, int height);
     ~Game();
 
     Game(const Game &) = delete;
     Game &operator=(const Game &) = delete;
 
+    bool isValid() const { return m_is_valid; }
     void run();
 
 private:
@@ -38,23 +39,24 @@ private:
     void render();
     void resetGame();
 
-    SDL_Event event;
+    SDL_Event m_event;
 
-    std::unique_ptr<Window> window;
-    std::unique_ptr<Renderer> renderer;
-    std::unique_ptr<Blocker> player;
-    std::unique_ptr<Blocker> bot;
-    std::unique_ptr<Ball> ball;
+    std::unique_ptr<Window> m_window;
+    std::unique_ptr<Renderer> m_renderer;
+    std::shared_ptr<Blocker> m_player;
+    std::shared_ptr<Blocker> m_bot;
+    std::shared_ptr<Ball> m_ball;
+    std::unique_ptr<Font> m_scoreFont;
+    std::unique_ptr<Font> m_gameOverFont;
 
-    BotController botController;
-    InputHandler inputHandler;
+    BotController m_botController;
+    InputHandler m_inputHandler;
 
-    GameState state = GameState::Playing;
-    uint8_t leftScore = 0;
-    uint8_t rightScore = 0;
+    GameState m_state = GameState::Playing;
+    uint8_t m_leftScore = 0;
+    uint8_t m_rightScore = 0;
     static constexpr auto MAX_SCORE = 5;
 
-    bool is_running = true;
+    bool m_is_running = true;
+    bool m_is_valid = false;
 };
-
-#endif // GAME_HPP

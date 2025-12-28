@@ -1,5 +1,4 @@
-#ifndef BLOCKER_HPP
-#define BLOCKER_HPP
+#pragma once
 
 #include <SDL_rect.h>
 
@@ -13,21 +12,19 @@ public:
 
     void update();
     void render(Renderer &renderer);
-    void setDirection(int direction_) { direction = direction_; }
+    void setDirection(int direction_) { m_direction = direction_; }
 
-    int getWidth() const { return width; }
-    int getHeight() const { return height; }
-    int getY() const { return rect.y; }
-    const SDL_Rect &getRect() const { return rect; }
+    int getWidth() const { return m_width; }
+    int getHeight() const { return m_height; }
+    int getY() const { return m_rect.y; }
+    const SDL_Rect &getRect() const { return m_rect; }
 
 private:
-    constexpr static int SPEED = 5;
+    constexpr static int SPEED = 10;
 
-    SDL_Rect rect;
-    int width;
-    int height;
-    int windowHeight;
-    int direction;
+    SDL_Rect m_rect;
+    int m_width;
+    int m_height;
+    int m_windowHeight;
+    int m_direction;
 };
-
-#endif // BLOCKER_HPP
