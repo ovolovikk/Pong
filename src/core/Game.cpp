@@ -5,6 +5,7 @@
 #include "entity/Blocker.hpp"
 #include "entity/Ball.hpp"
 #include "ui/Font.hpp"
+#include "ui/Score.hpp"
 
 #include <iostream>
 
@@ -38,11 +39,14 @@ Game::~Game()
 {
     if (m_is_valid)
     {
-        m_renderer.reset();
-        m_window.reset();
-
+        m_player.reset();
+        m_bot.reset();
+        m_ball.reset();
         m_gameOverFont.reset();
         m_scoreFont.reset();
+        m_score.reset();
+        m_renderer.reset();
+        m_window.reset();
 
         TTF_Quit();
         SDL_Quit();
@@ -130,49 +134,23 @@ void Game::render()
 
     if (m_state == GameState::Playing)
     {
+        m_score->updateScore(m_leftScore, m_rightScore, *m_renderer);
+
         m_player->render(*m_renderer);
         m_bot->render(*m_renderer);
         m_ball->render(*m_renderer);
 
-        m_renderer->drawText(
-            std::to_string(m_leftScore),
-            m_window->getWidth() / 4,
-            30,
-            32,
-            SDL_Color{255, 255, 255, 255}
-        );
-
-        m_renderer->drawText(
-            std::to_string(m_rightScore),
-            m_window->getWidth() * 3 / 4,
-            30,
-            32,
-            SDL_Color{255, 255, 255, 255}
-        );
+        m_score->render(*m_renderer);
     }
     else if (m_state == GameState::GameOver)
     {
-        m_renderer->drawText(
-            "GAME OVER",
-            m_window->getWidth() / 2 - 140,
-            m_window->getHeight() / 2 - 80,
-            48,
-            SDL_Color{255, 0, 0, 255}
-        );
-
-        m_renderer->drawText(
-            "Press ENTER to restart",
-            m_window->getWidth() / 2 - 200,
-            m_window->getHeight() / 2,
-            24,
-            SDL_Color{255, 255, 255, 255}
-        );
+        m_renderer->drawText(*m_gameOverFont, "GAME OVER.",
+                             m_window->getWidth() / 2 - 140,
+                             m_window->getHeight() / 2 - 80, {255, 0, 0, 255});
     }
 
     m_renderer->endFrame();
 }
-
-
 
 void Game::resetGame()
 {
@@ -189,7 +167,15 @@ void Game::init()
     int w = m_window->getWidth();
     int h = m_window->getHeight();
 
+    m_score = std::make_shared<Score>(m_scoreFont, w);
+    m_score->setColor(Colors::White);
+    m_score->updateScore(0, 0, *m_renderer);
+
     m_player = std::make_shared<Blocker>(50, (h / 2) - 50, h);
-    m_ball = std::make_shared<Ball>(Circle{w / 2, h / 2, 10}, SDL_Color{255, 255, 255, 255}, w, h);
+    m_ball = std::make_shared<Ball>(Circle{w / 2, h / 2, 10}, w, h);
     m_bot = std::make_shared<Blocker>(w - 70, (h / 2) - 50, h);
+
+    m_player->setColor(Colors::White);
+    m_ball->setColor(Colors::White);
+    m_player->setColor(Colors::White);
 }

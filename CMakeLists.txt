@@ -34,6 +34,7 @@ set(SOURCES
     src/entity/Blocker.cpp
     src/entity/Ball.cpp
     src/ui/Font.cpp
+    src/ui/Score.cpp
 )
 
 add_executable(Pong ${SOURCES})

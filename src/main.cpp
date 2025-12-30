@@ -4,9 +4,8 @@
 
 int main()
 {
-
     Game game("Pong", 1280, 960);
-    if(!game.isValid())
+    if (!game.isValid())
     {
         return -1;
     }

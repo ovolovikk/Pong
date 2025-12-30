@@ -1,35 +1,34 @@
 #pragma once
 
 #include "helpers/Circle.hpp"
+#include "core/GameObject.hpp"
 
 #include <SDL.h>
 
 class Renderer;
 
-class Ball
+class Ball : public GameObject
 {
 public:
-    Ball(const Circle &p, SDL_Color color, int windowWidth, int windowHeight);
-    ~Ball();
+    Ball(const Circle &c, int windowWidth, int windowHeight);
+    ~Ball() override;
 
-    void update();
+    void update() override;
+    void render(Renderer &renderer) override;
+
     void reset();
-    void render(Renderer &renderer);
     void checkCollision(const SDL_Rect &rect);
 
-    const Circle &getCircle() const { return m_circle; }
-    auto getX() const { return m_circle.x; }
+    Circle getCircle() const;
+    auto getX() const { return m_x; }
 
 private:
-    Circle m_circle;
-    SDL_Color m_color;
-    int m_windowWidth;
-    int m_windowHeight;
-    float m_dx;
-    float m_dy;
-    float m_speed;
+    int m_windowWidth = 0;
+    int m_windowHeight = 0;
+    float m_dx = 4.f;
+    float m_dy = 4.f;
+    float m_speed = 4.f;
 
-    // Helper to keep track of precise position
-    float m_x_pos;
-    float m_y_pos;
+    static constexpr float INITIAL_SPEED = 4.0f;
+    static constexpr float SPEED_INCREMENT = 1.0f;
 };

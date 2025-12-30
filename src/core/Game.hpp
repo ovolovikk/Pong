@@ -13,6 +13,7 @@ class Renderer;
 class Blocker;
 class Ball;
 class Font;
+class Score;
 
 enum class GameState
 {
@@ -41,13 +42,14 @@ private:
 
     SDL_Event m_event;
 
-    std::unique_ptr<Window> m_window;
-    std::unique_ptr<Renderer> m_renderer;
-    std::shared_ptr<Blocker> m_player;
-    std::shared_ptr<Blocker> m_bot;
-    std::shared_ptr<Ball> m_ball;
-    std::unique_ptr<Font> m_scoreFont;
-    std::unique_ptr<Font> m_gameOverFont;
+    std::shared_ptr<Window> m_window = nullptr;
+    std::shared_ptr<Renderer> m_renderer = nullptr;
+    std::shared_ptr<Blocker> m_player = nullptr;
+    std::shared_ptr<Blocker> m_bot = nullptr;
+    std::shared_ptr<Ball> m_ball = nullptr;
+    std::shared_ptr<Font> m_scoreFont = nullptr;
+    std::shared_ptr<Font> m_gameOverFont = nullptr;
+    std::shared_ptr<Score> m_score = nullptr;
 
     BotController m_botController;
     InputHandler m_inputHandler;
@@ -55,7 +57,7 @@ private:
     GameState m_state = GameState::Playing;
     uint8_t m_leftScore = 0;
     uint8_t m_rightScore = 0;
-    static constexpr auto MAX_SCORE = 5;
+    static constexpr auto MAX_SCORE = 1;
 
     bool m_is_running = true;
     bool m_is_valid = false;

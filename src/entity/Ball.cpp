@@ -1,58 +1,69 @@
 #include "Ball.hpp"
+
 #include "core/Renderer.hpp"
+#include "helpers/Colors.hpp"
 
 #include <SDL.h>
+
 #include <cmath>
 #include <algorithm>
 
-Ball::Ball(const Circle &p, SDL_Color color, int windowWidth, int windowHeight)
-        : m_circle(p), m_color(color),
-            m_windowWidth(windowWidth), m_windowHeight(windowHeight),
-            m_dx(4.0f), m_dy(4.0f), m_speed(4.0f)
+Ball::Ball(const Circle &c, int windowWidth, int windowHeight)
+    : m_windowWidth(windowWidth), m_windowHeight(windowHeight),
+      m_dx(INITIAL_SPEED), m_dy(INITIAL_SPEED), m_speed(INITIAL_SPEED)
 {
+    m_x = static_cast<float>(c.x);
+    m_y = static_cast<float>(c.y);
+    m_w = c.radius * 2;
+    m_h = c.radius * 2;
+    m_color = Colors::White;
 }
 
 Ball::~Ball() = default;
 
 void Ball::update()
 {
-    m_circle.x += m_dx;
-    m_circle.y += m_dy;
+    m_x += m_dx;
+    m_y += m_dy;
 
-    if (m_circle.y - m_circle.radius < 0)
+    float radius = static_cast<float>(m_w) / 2.0f;
+
+    if (m_y - radius < 0.0f)
     {
-        m_circle.y = m_circle.radius;
+        m_y = radius;
         m_dy = -m_dy;
     }
-    if (m_circle.y + m_circle.radius > m_windowHeight)
+    else if (m_y + radius > static_cast<float>(m_windowHeight))
     {
-        m_circle.y = m_windowHeight - m_circle.radius;
+        m_y = static_cast<float>(m_windowHeight) - radius;
         m_dy = -m_dy;
     }
 }
 
 void Ball::reset()
 {
-    m_circle.x = m_windowWidth / 2;
-    m_circle.y = m_windowHeight / 2;
-    m_speed = 4.0f;
-    m_dx = (m_dx > 0 ? -1 : 1) * m_speed;
-    m_dy = (m_dy > 0 ? 1 : -1) * m_speed;
+    m_x = static_cast<float>(m_windowWidth) / 2.0f;
+    m_y = static_cast<float>(m_windowHeight) / 2.0f;
+    m_speed = INITIAL_SPEED;
+    m_dx = (m_dx > 0 ? -1.0f : 1.0f) * m_speed;
+    m_dy = (m_dy > 0 ? 1.0f : -1.0f) * m_speed;
 }
 
 void Ball::checkCollision(const SDL_Rect &rect)
 {
-    int closestX = std::clamp(m_circle.x, rect.x, rect.x + rect.w);
-    int closestY = std::clamp(m_circle.y, rect.y, rect.y + rect.h);
+    float radius = static_cast<float>(m_w) / 2.0f;
 
-    int distanceX = m_circle.x - closestX;
-    int distanceY = m_circle.y - closestY;
+    float closestX = std::clamp(m_x, static_cast<float>(rect.x), static_cast<float>(rect.x + rect.w));
+    float closestY = std::clamp(m_y, static_cast<float>(rect.y), static_cast<float>(rect.y + rect.h));
 
-    int distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+    float distanceX = m_x - closestX;
+    float distanceY = m_y - closestY;
 
-    if (distanceSquared < (m_circle.radius * m_circle.radius))
+    float distanceSquared = (distanceX * distanceX) + (distanceY * distanceY);
+
+    if (distanceSquared < (radius * radius))
     {
-        m_speed += 1.0f;
+        m_speed += SPEED_INCREMENT;
 
         float length = std::sqrt(m_dx * m_dx + m_dy * m_dy);
         if (length != 0)
@@ -63,18 +74,20 @@ void Ball::checkCollision(const SDL_Rect &rect)
 
         m_dx = -m_dx;
 
-        if (m_circle.x < rect.x)
-        {
-            m_circle.x = rect.x - m_circle.radius;
-        }
+        if (m_x < static_cast<float>(rect.x))
+            m_x = static_cast<float>(rect.x) - radius;
         else
-        {
-            m_circle.x = rect.x + rect.w + m_circle.radius;
-        }
+            m_x = static_cast<float>(rect.x + rect.w) + radius;
     }
 }
 
 void Ball::render(Renderer &renderer)
 {
-    renderer.drawCircle(m_circle, m_color);
+    renderer.setDrawColor(m_color);
+    renderer.drawCircle(getCircle());
+}
+
+Circle Ball::getCircle() const
+{
+    return {static_cast<int>(m_x), static_cast<int>(m_y), m_w / 2};
 }

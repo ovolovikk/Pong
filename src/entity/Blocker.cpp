@@ -1,34 +1,39 @@
 #include "Blocker.hpp"
 
+#include "helpers/Colors.hpp"
 #include "core/Renderer.hpp"
 
-Blocker::Blocker(int x, int y, int windowHeight_)
-    : m_width(20), m_height(100),
-      m_windowHeight(windowHeight_), m_direction(0)
+Blocker::Blocker(int x, int y, int windowHeight)
+    : m_windowHeight(windowHeight), m_direction(0)
 {
-    m_rect.x = x;
-    m_rect.y = y;
-    m_rect.w = m_width;
-    m_rect.h = m_height;
+    m_x = static_cast<float>(x);
+    m_y = static_cast<float>(y);
+    m_w = WIDTH;
+    m_h = HEIGHT;
+    m_color = Colors::White;
 }
 
 Blocker::~Blocker() = default;
 
 void Blocker::update()
 {
-    m_rect.y += m_direction * SPEED;
+    m_y += static_cast<float>(m_direction * SPEED);
 
-    if (m_rect.y < 0)
+    if (m_y < 0)
     {
-        m_rect.y = 0;
+        m_y = 0;
     }
-    if (m_rect.y + m_height > m_windowHeight)
+    if (m_y + static_cast<float>(m_h) > static_cast<float>(m_windowHeight))
     {
-        m_rect.y = m_windowHeight - m_height;
+        m_y = static_cast<float>(m_windowHeight - m_h);
     }
+
+    m_rect = {static_cast<int>(m_x), static_cast<int>(m_y), m_w, m_h};
 }
 
 void Blocker::render(Renderer &renderer)
 {
-    renderer.drawRect(m_rect);
+    renderer.setDrawColor(m_color);
+    SDL_Rect rect = {static_cast<int>(m_x), static_cast<int>(m_y), m_w, m_h};
+    renderer.drawRect(rect);
 }
