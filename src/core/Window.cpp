@@ -29,12 +29,12 @@ Window::Window(const std::string_view &title, int width, int height)
 
 Window::~Window() = default;
 
-int Game::getWidth() const
+int Window::getWidth() const
 {
     return m_width;
 }
 
-int Game::getHeight() const
+int Window::getHeight() const
 {
     return m_height;
 }

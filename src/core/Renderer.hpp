@@ -7,7 +7,6 @@
 
 #include <SDL.h>
 
-struct Circle;
 struct TTF_Font;
 class Font;
 class Score;
@@ -28,7 +27,7 @@ public:
 
     void drawTexture(SDL_Texture *texture, int x, int y);
     void drawRect(const SDL_Rect &rect);
-    void drawCircle(const Circle &circle);
+    void drawCircle(int x, int y, int radius);
     void drawText(const Font &font, const std::string &text, int x, int y, SDL_Color color);
     void endFrame();
 private:

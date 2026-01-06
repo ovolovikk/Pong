@@ -1,6 +1,5 @@
 #include "core/Renderer.hpp"
 
-#include "helpers/Circle.hpp"
 #include "ui/Font.hpp"
 #include "core/Window.hpp"
 #include "ui/Score.hpp"
@@ -55,17 +54,14 @@ void Renderer::drawRect(const SDL_Rect &rect)
     SDL_RenderFillRect(m_renderer.get(), &rect);
 }
 
-void Renderer::drawCircle(const Circle &circle)
+void Renderer::drawCircle(int x, int y, int radius)
 {
-    for (int x = -circle.radius; x <= circle.radius; x++)
+    // drawing lines not points for optimization
+    int r2 = radius * radius;
+    for (int cy = -radius; cy <= radius; cy++)
     {
-        for (int y = -circle.radius; y <= circle.radius; y++)
-        {
-            if (x * x + y * y <= circle.radius * circle.radius)
-            {
-                SDL_RenderDrawPoint(m_renderer.get(), circle.x + x, circle.y + y);
-            }
-        }
+        int width = std::sqrt(r2 - cy * cy); 
+        SDL_RenderDrawLine(m_renderer.get(), x - width, y + cy, x + width, y + cy);
     }
 }
 

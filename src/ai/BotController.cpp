@@ -1,12 +1,10 @@
 #include "ai/BotController.hpp"
 #include "entity/Blocker.hpp"
 #include "entity/Ball.hpp"
-#include "helpers/Circle.hpp"
 
 void BotController::update(const std::shared_ptr<Blocker> &blocker, const std::shared_ptr<Ball> &ball)
 {
-    const Circle &ballCircle = ball->getCircle();
-    int ballY = ballCircle.y;
+    int ballY = static_cast<int>(ball->getY());
     int blockerY = blocker->getY() + blocker->getHeight() / 2;
 
     if (ballY < blockerY - 10)

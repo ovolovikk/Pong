@@ -1,6 +1,5 @@
 #pragma once
 
-#include "helpers/Circle.hpp"
 #include "core/GameObject.hpp"
 
 #include <SDL.h>
@@ -10,7 +9,7 @@ class Renderer;
 class Ball : public GameObject
 {
 public:
-    Ball(const Circle &c, int windowWidth, int windowHeight);
+    Ball(float x, float y, int radius, int windowWidth, int windowHeight);
     ~Ball() override;
 
     void update() override;
@@ -19,9 +18,8 @@ public:
     void reset();
     void checkCollision(const SDL_Rect &rect);
 
-    Circle getCircle() const;
-    auto getX() const;
-
+    float getX() const;
+    float getY() const;
 private:
     int m_windowWidth = 0;
     int m_windowHeight = 0;

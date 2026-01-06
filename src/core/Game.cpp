@@ -169,7 +169,7 @@ void Game::init()
     m_score->updateScore(0, 0, *m_renderer);
 
     m_player = std::make_shared<Blocker>(50, (h / 2) - 50, h);
-    m_ball = std::make_shared<Ball>(Circle{w / 2, h / 2, 10}, w, h);
+    m_ball = std::make_shared<Ball>(w / 2, h / 2, 10, w, h);
     m_bot = std::make_shared<Blocker>(w - 70, (h / 2) - 50, h);
 
     m_player->setColor(Colors::White);

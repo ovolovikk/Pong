@@ -2,7 +2,7 @@
 
 #include "core/GameObject.hpp"
 
-#include <SDL_rect.h>
+#include <SDL.h>
 
 class Renderer; // custom Renderer
 
@@ -17,9 +17,8 @@ public:
 
     void setDirection(int direction);
 
-    int getWidth();
-    int getHeight();
-    int getY();
+    int getHeight() const;
+    int getY() const;
     const SDL_Rect &getRect() const;
 
 private:

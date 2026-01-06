@@ -9,14 +9,14 @@
 #include <cmath>
 #include <algorithm>
 
-Ball::Ball(const Circle &c, int windowWidth, int windowHeight)
+Ball::Ball(float x, float y, int radius, int windowWidth, int windowHeight)
     : m_windowWidth(windowWidth), m_windowHeight(windowHeight),
       m_dx(Params::INITIAL_SPEED), m_dy(Params::INITIAL_SPEED), m_speed(Params::INITIAL_SPEED)
 {
-    m_x = static_cast<float>(c.x);
-    m_y = static_cast<float>(c.y);
-    m_w = c.radius * 2;
-    m_h = c.radius * 2;
+    m_x = x;
+    m_y = y;
+    m_w = radius * 2;
+    m_h = radius * 2;
     m_color = Colors::White;
 }
 
@@ -85,15 +85,15 @@ void Ball::checkCollision(const SDL_Rect &rect)
 void Ball::render(Renderer &renderer)
 {
     renderer.setDrawColor(m_color);
-    renderer.drawCircle(getCircle());
+    renderer.drawCircle(static_cast<int>(m_x), static_cast<int>(m_y), m_w / 2);
 }
 
-Circle Ball::getCircle() const
-{
-    return {static_cast<int>(m_x), static_cast<int>(m_y), m_w / 2};
-}
-
-auto Ball::getX() const
+float Ball::getX() const
 {
     return m_x;
+}
+
+float Ball::getY() const
+{
+    return m_y;
 }

@@ -44,11 +44,6 @@ void Blocker::setDirection(int direction)
     m_direction = direction;
 }
 
-int Blocker::getWidth() const
-{
-    return m_w;
-}
-
 int Blocker::getHeight() const
 {
     return m_h;
