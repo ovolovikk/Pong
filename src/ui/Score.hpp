@@ -16,13 +16,11 @@ public:
     ~Score();
 
     void update() override {};
-    void render(Renderer &renderer);
+    void render(Renderer &renderer) override;
 
     void updateScore(int left, int right, Renderer &renderer);
 
 private:
-    static constexpr int DISTANCE_Y = 30;
-    static constexpr float POSITION_DIVIDER = 4.f;
 
     std::shared_ptr<Font> m_font = nullptr;
 

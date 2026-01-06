@@ -9,12 +9,14 @@
 
 struct Circle;
 struct TTF_Font;
-class Font; // my Font
+class Font;
+class Score;
+class Window;
 
 class Renderer
 {
 public:
-    Renderer(SDL_Window *window);
+    Renderer(const Window& window);
     ~Renderer();
 
     Renderer(const Renderer &) = delete;
@@ -29,11 +31,10 @@ public:
     void drawCircle(const Circle &circle);
     void drawText(const Font &font, const std::string &text, int x, int y, SDL_Color color);
     void endFrame();
-
-    SDL_Renderer *getSDLRenderer() const { return m_renderer.get(); }
-
 private:
-    std::shared_ptr<SDL_Renderer> m_renderer = nullptr;
+    std::shared_ptr<SDL_Renderer> m_renderer;
 
     static constexpr SDL_Color BACKGROUND_COLOR = Colors::Black;
+    
+    friend class Score;
 };

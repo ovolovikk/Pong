@@ -1,5 +1,7 @@
 #include "core/InputHandler.hpp"
+
 #include "entity/Blocker.hpp"
+
 #include <SDL.h>
 
 void InputHandler::handleInput(const std::shared_ptr<Blocker> &player)

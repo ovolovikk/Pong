@@ -28,7 +28,4 @@ private:
     float m_dx = 4.f;
     float m_dy = 4.f;
     float m_speed = 4.f;
-
-    static constexpr float INITIAL_SPEED = 4.0f;
-    static constexpr float SPEED_INCREMENT = 1.0f;
 };

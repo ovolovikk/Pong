@@ -2,14 +2,15 @@
 
 #include "helpers/Colors.hpp"
 #include "core/Renderer.hpp"
+#include "helpers/Params.hpp"
 
 Blocker::Blocker(int x, int y, int windowHeight)
     : m_windowHeight(windowHeight), m_direction(0)
 {
     m_x = static_cast<float>(x);
     m_y = static_cast<float>(y);
-    m_w = WIDTH;
-    m_h = HEIGHT;
+    m_w = Params::BLOCKER_WIDTH;
+    m_h = Params::BLOCKER_HEIGHT;
     m_color = Colors::White;
 }
 
@@ -17,7 +18,7 @@ Blocker::~Blocker() = default;
 
 void Blocker::update()
 {
-    m_y += static_cast<float>(m_direction * SPEED);
+    m_y += static_cast<float>(m_direction * Params::SPEED);
 
     if (m_y < 0)
     {

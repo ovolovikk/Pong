@@ -2,15 +2,17 @@
 
 #include "helpers/Circle.hpp"
 #include "ui/Font.hpp"
+#include "core/Window.hpp"
+#include "ui/Score.hpp"
 
 #include <iostream>
 
 #include <SDL.h>
 #include <SDL_ttf.h>
 
-Renderer::Renderer(SDL_Window *window)
+Renderer::Renderer(const Window& window)
 {
-    SDL_Renderer *raw_renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    SDL_Renderer *raw_renderer = SDL_CreateRenderer(window.m_window.get(), -1, SDL_RENDERER_ACCELERATED);
     if (!raw_renderer)
     {
         std::cerr << "Error during renderer initialization, SDL_GetError:"
@@ -69,10 +71,10 @@ void Renderer::drawCircle(const Circle &circle)
 
 void Renderer::drawText(const Font &font, const std::string &text, int x, int y, SDL_Color color)
 {
-    if (!font.getSDLFont())
+    if (!font.m_font.get())
         return;
 
-    SDL_Surface *surface = TTF_RenderText_Solid(font.getSDLFont(), text.c_str(), color);
+    SDL_Surface *surface = TTF_RenderText_Solid(font.m_font.get(), text.c_str(), color);
     if (!surface)
         return;
 

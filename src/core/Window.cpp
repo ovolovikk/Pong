@@ -5,7 +5,7 @@
 #include <SDL.h>
 
 Window::Window(const std::string_view &title, int width, int height)
-    : m_width(width), m_height(height), m_window(nullptr)
+    : m_width(width), m_height(height)
 {
     if (SDL_Init(SDL_INIT_VIDEO) != 0)
     {

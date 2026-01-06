@@ -23,11 +23,7 @@ public:
     const SDL_Rect &getRect() const { return m_rect; };
 
 private:
-    constexpr static int SPEED = 10;
-    constexpr static int HEIGHT = 100;
-    constexpr static int WIDTH = 20;
-
     SDL_Rect m_rect;
-    int m_windowHeight;
+    int m_windowHeight = 0;
     int m_direction = 0;
 };

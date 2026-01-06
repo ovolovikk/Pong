@@ -2,6 +2,7 @@
 
 #include "core/Renderer.hpp"
 #include "helpers/Colors.hpp"
+#include "helpers/Params.hpp"
 
 #include <SDL.h>
 
@@ -10,7 +11,7 @@
 
 Ball::Ball(const Circle &c, int windowWidth, int windowHeight)
     : m_windowWidth(windowWidth), m_windowHeight(windowHeight),
-      m_dx(INITIAL_SPEED), m_dy(INITIAL_SPEED), m_speed(INITIAL_SPEED)
+      m_dx(Params::INITIAL_SPEED), m_dy(Params::INITIAL_SPEED), m_speed(Params::INITIAL_SPEED)
 {
     m_x = static_cast<float>(c.x);
     m_y = static_cast<float>(c.y);
@@ -44,7 +45,7 @@ void Ball::reset()
 {
     m_x = static_cast<float>(m_windowWidth) / 2.0f;
     m_y = static_cast<float>(m_windowHeight) / 2.0f;
-    m_speed = INITIAL_SPEED;
+    m_speed = Params::INITIAL_SPEED;
     m_dx = (m_dx > 0 ? -1.0f : 1.0f) * m_speed;
     m_dy = (m_dy > 0 ? 1.0f : -1.0f) * m_speed;
 }
@@ -63,7 +64,7 @@ void Ball::checkCollision(const SDL_Rect &rect)
 
     if (distanceSquared < (radius * radius))
     {
-        m_speed += SPEED_INCREMENT;
+        m_speed += Params::SPEED_INCREMENT;
 
         float length = std::sqrt(m_dx * m_dx + m_dy * m_dy);
         if (length != 0)

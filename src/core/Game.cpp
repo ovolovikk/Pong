@@ -6,6 +6,7 @@
 #include "entity/Ball.hpp"
 #include "ui/Font.hpp"
 #include "ui/Score.hpp"
+#include "helpers/Params.hpp"
 
 #include <iostream>
 
@@ -39,15 +40,6 @@ Game::~Game()
 {
     if (m_is_valid)
     {
-        m_player.reset();
-        m_bot.reset();
-        m_ball.reset();
-        m_gameOverFont.reset();
-        m_scoreFont.reset();
-        m_score.reset();
-        m_renderer.reset();
-        m_window.reset();
-
         TTF_Quit();
         SDL_Quit();
     }
@@ -119,7 +111,7 @@ void Game::update()
         m_ball->reset();
     }
 
-    if (m_leftScore >= MAX_SCORE || m_rightScore >= MAX_SCORE)
+    if (m_leftScore >= Params::MAX_SCORE || m_rightScore >= Params::MAX_SCORE)
     {
         m_state = GameState::GameOver;
     }
@@ -162,7 +154,7 @@ void Game::resetGame()
 
 void Game::init()
 {
-    m_renderer = std::make_unique<Renderer>(m_window->getSDLWindow());
+    m_renderer = std::make_unique<Renderer>(*m_window);
 
     int w = m_window->getWidth();
     int h = m_window->getHeight();
