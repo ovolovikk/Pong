@@ -20,7 +20,7 @@ public:
     void checkCollision(const SDL_Rect &rect);
 
     Circle getCircle() const;
-    auto getX() const { return m_x; }
+    auto getX() const;
 
 private:
     int m_windowWidth = 0;

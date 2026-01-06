@@ -92,3 +92,8 @@ Circle Ball::getCircle() const
 {
     return {static_cast<int>(m_x), static_cast<int>(m_y), m_w / 2};
 }
+
+auto Ball::getX() const
+{
+    return m_x;
+}

@@ -22,10 +22,10 @@ public:
 
 private:
 
-    std::shared_ptr<Font> m_font = nullptr;
+    std::shared_ptr<Font> m_font;
 
-    std::shared_ptr<SDL_Texture> m_leftTexture = nullptr;
-    std::shared_ptr<SDL_Texture> m_rightTexture = nullptr;
+    std::shared_ptr<SDL_Texture> m_leftTexture;
+    std::shared_ptr<SDL_Texture> m_rightTexture;
 
     int m_lastLeft = -1, m_lastRight = -1;
     int m_windowWidth = 0;

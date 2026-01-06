@@ -15,12 +15,12 @@ public:
     void update() override;
     void render(Renderer &renderer) override;
 
-    void setDirection(int direction) { m_direction = direction; }
+    void setDirection(int direction);
 
-    int getWidth() const { return m_w; }
-    int getHeight() const { return m_h; }
-    int getY() const { return m_rect.y; }
-    const SDL_Rect &getRect() const { return m_rect; };
+    int getWidth();
+    int getHeight();
+    int getY();
+    const SDL_Rect &getRect() const;
 
 private:
     SDL_Rect m_rect;

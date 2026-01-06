@@ -16,8 +16,8 @@ public:
     Window(const Window &) = delete;
     Window &operator=(const Window &) = delete;
 
-    int getWidth() const { return m_width; }
-    int getHeight() const { return m_height; }
+    int getWidth() const;
+    int getHeight() const;
 
 private:
     std::shared_ptr<SDL_Window> m_window;

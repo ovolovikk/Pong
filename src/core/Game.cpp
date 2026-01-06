@@ -62,6 +62,11 @@ void Game::run()
     }
 }
 
+bool Game::isValid() const 
+{
+    return m_is_valid;
+}
+
 void Game::handleEvents()
 {
     while (SDL_PollEvent(&m_event))

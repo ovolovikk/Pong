@@ -30,7 +30,7 @@ public:
     Game(const Game &) = delete;
     Game &operator=(const Game &) = delete;
 
-    bool isValid() const { return m_is_valid; }
+    bool isValid() const;
     void run();
 
 private:

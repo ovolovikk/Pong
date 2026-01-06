@@ -38,3 +38,28 @@ void Blocker::render(Renderer &renderer)
     SDL_Rect rect = {static_cast<int>(m_x), static_cast<int>(m_y), m_w, m_h};
     renderer.drawRect(rect);
 }
+
+void Blocker::setDirection(int direction)
+{
+    m_direction = direction;
+}
+
+int Blocker::getWidth() const
+{
+    return m_w;
+}
+
+int Blocker::getHeight() const
+{
+    return m_h;
+}
+
+int Blocker::getY() const
+{
+    return m_rect.y;
+}
+    
+const SDL_Rect &Blocker::getRect() const
+{
+    return m_rect;
+};
